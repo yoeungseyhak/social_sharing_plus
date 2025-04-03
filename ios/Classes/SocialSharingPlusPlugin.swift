@@ -43,6 +43,8 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin {
             shareToReddit(arguments: arguments, result: result, isOpenBrowser: isOpenBrowser)
         case "shareToTelegram":
             shareToTelegram(arguments: arguments, result: result, isOpenBrowser: isOpenBrowser)
+        case "shareToInstagram":
+            shareToInstagram(arguments: arguments, result: result, isOpenBrowser: isOpenBrowser)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -149,6 +151,26 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin {
             shareImageToSpecificApp(imageUri: imageUri, appUrlScheme: "tg://", result: result, isOpenBrowser: isOpenBrowser)
         }
     }
+    
+    // seyhak
+    /// Shares content to Instagram.
+    ///
+    /// - Parameters:
+    ///   - arguments: Arguments dictionary containing content and image URIs.
+    ///   - result: FlutterResult object to complete the call.
+    ///   - isOpenBrowser: Flag indicating whether to open in browser if app not installed.
+    private func shareToInstagram(arguments: [String: Any], result: @escaping FlutterResult, isOpenBrowser: Bool) {
+        if let content = arguments["content"] as? String, let imageUri = arguments["media"] as? String {
+            shareContentAndImageToSpecificApp(content: content, imageUri: imageUri, appUrlScheme: "instagram://sharesheet?text=\(content)", webUrlString: "https://www.instagram.com", result: result, isOpenBrowser: isOpenBrowser)
+        } else if let content = arguments["content"] as? String {
+            let urlString = "instagram://sharesheet?text=\(content)"
+            let webUrlString = "https://www.instagram.com"
+            openUrl(urlString: urlString, webUrlString: webUrlString, result: result, isOpenBrowser: isOpenBrowser)
+        } else if let imageUri = arguments["media"] as? String {
+            shareImageToSpecificApp(imageUri: imageUri, appUrlScheme: "instagram://", result: result, isOpenBrowser: isOpenBrowser)
+        }
+    }
+    // end seyhak
     
     // MARK: - URL Handling
     
