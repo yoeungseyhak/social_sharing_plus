@@ -1,0 +1,2 @@
+/Users/bdm/Documents/flutter-packages/my-package/social_sharing_plus/example/android/app/.cxx/Debug/3w163ox4/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/bdm/Documents/flutter-packages/my-package/social_sharing_plus/example/android/app/.cxx/Debug/3w163ox4/armeabi-v7a/CMakeFiles/rebuild_cache.dir

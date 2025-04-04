@@ -161,10 +161,11 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin {
     ///   - isOpenBrowser: Flag indicating whether to open in browser if app not installed.
     private func shareToInstagram(arguments: [String: Any], result: @escaping FlutterResult, isOpenBrowser: Bool) {
         if let content = arguments["content"] as? String, let imageUri = arguments["media"] as? String {
-            shareContentAndImageToSpecificApp(content: content, imageUri: imageUri, appUrlScheme: "instagram://sharesheet?text=\(content)", webUrlString: "https://www.instagram.com", result: result, isOpenBrowser: isOpenBrowser)
+            shareContentAndImageToSpecificApp(content: content, imageUri: imageUri, appUrlScheme: "instagram://sharesheet?text=\(content)", webUrlString: "https://www.instagram.com/", result: result, isOpenBrowser: isOpenBrowser)
         } else if let content = arguments["content"] as? String {
-            let urlString = "instagram://sharesheet?text=\(content)"
-            let webUrlString = "https://www.instagram.com"
+            /// share only url to instagram if no media
+            let urlString = "instagram://sharesheet?url=\(content)"
+            let webUrlString = "https://www.instagram.com/"
             openUrl(urlString: urlString, webUrlString: webUrlString, result: result, isOpenBrowser: isOpenBrowser)
         } else if let imageUri = arguments["media"] as? String {
             shareImageToSpecificApp(imageUri: imageUri, appUrlScheme: "instagram://", result: result, isOpenBrowser: isOpenBrowser)

@@ -47,5 +47,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram</string>
+		<string>fb</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+		<string>fbapi</string>
+		<string>facebook-reels</string>
+		<string>facebook-stories</string>
+		<string>fb-messenger-share-api</string>
+		<string>fb-messenger</string>
+		<string>tg</string>
+		<string>whatsapp</string>
+		<string>twitter</string>
+	</array>
 </dict>
 </plist>
