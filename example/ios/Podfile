@@ -35,9 +35,6 @@ target 'Runner' do
   target 'RunnerTests' do
     inherit! :search_paths
   end
-
-  pod 'FBSDKCoreKit'
-  pod 'FBSDKShareKit'
 end
 
 post_install do |installer|

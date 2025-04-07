@@ -25,7 +25,7 @@ class SharePage extends StatefulWidget {
 }
 
 class _SharePageState extends State<SharePage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController(text: 'https://g-website.server855.com/post/15046');
   static const List<SocialPlatform> _platforms = SocialPlatform.values;
 
   String? _mediaPath;
@@ -94,7 +94,7 @@ class _SharePageState extends State<SharePage> {
                 (SocialPlatform platform) => ElevatedButton(
                   onPressed: () => _share(
                     platform,
-                    isMultipleShare: true,
+                    isMultipleShare: false,
                   ),
                   child: Text('Share to ${platform.name.capitalize}'),
                 ),
