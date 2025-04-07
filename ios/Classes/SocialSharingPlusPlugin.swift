@@ -70,12 +70,12 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin, SharingDelegate {
                 return
             }
 
-            let content = ShareLinkContent()
-            content.contentURL = url
+            let shareLink = ShareLinkContent()
+            shareLink.contentURL = url
 
             let dialog = ShareDialog(
                 viewController: UIApplication.shared.windows.first!.rootViewController,
-                content: content,
+                content: shareLink,
                 delegate: self
             )
 
