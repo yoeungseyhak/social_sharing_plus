@@ -1,7 +1,9 @@
 import Flutter
 import UIKit
+import FBSDKCoreKit
+import FBSDKShareKit
 
-public class SocialSharingPlusPlugin: NSObject, FlutterPlugin {
+public class SocialSharingPlusPlugin: NSObject, FlutterPlugin, SharingDelegate {
     
     // MARK: - FlutterPlugin Protocol Methods
     
@@ -55,20 +57,39 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin {
     /// Shares content to Facebook.
     ///
     /// - Parameters:
-    ///   - arguments: Arguments dictionary containing content and image URIs.
+    ///   - arguments: only URIs.
     ///   - result: FlutterResult object to complete the call.
     ///   - isOpenBrowser: Flag indicating whether to open in browser if app not installed.
+    
+    // *Seyhak
     private func shareToFacebook(arguments: [String: Any], result: @escaping FlutterResult, isOpenBrowser: Bool) {
-        if let content = arguments["content"] as? String, let imageUri = arguments["media"] as? String {
-            shareContentAndImageToSpecificApp(content: content, imageUri: imageUri, appUrlScheme: "fb://publish/profile/me?text=\(content)", webUrlString: "https://www.facebook.com/sharer/sharer.php?u=\(content)", result: result, isOpenBrowser: isOpenBrowser)
-        } else if let content = arguments["content"] as? String {
-            let urlString = "fb://publish/profile/me?text=\(content)"
-            let webUrlString = "https://www.facebook.com/sharer/sharer.php?u=\(content)"
-            openUrl(urlString: urlString, webUrlString: webUrlString, result: result, isOpenBrowser: isOpenBrowser)
-        } else if let imageUri = arguments["media"] as? String {
-            shareImageToSpecificApp(imageUri: imageUri, appUrlScheme: "fb://", result: result, isOpenBrowser: isOpenBrowser)
+        if let content = arguments["content"] as? String {
+            guard let url = URL(string: content) else {
+                // handle and return
+                print("URL error: \(content)")
+                return
+            }
+
+            let content = ShareLinkContent()
+            content.contentURL = url
+
+            let dialog = ShareDialog(
+                viewController: UIApplication.shared.windows.first!.rootViewController,
+                content: content,
+                delegate: self
+            )
+
+            do {
+                try dialog.validate()
+            } catch {
+                // app not installed
+                openUrl(urlString: "fb://publish/profile/me?text=\(content)", webUrlString: "https://www.facebook.com/sharer/sharer.php?u=\(content)", result: result, isOpenBrowser: isOpenBrowser)
+            }
+            dialog.show()
+            print("SUCCESS")
         }
     }
+    // *end Seyhak
 
     /// Shares content to Twitter.
     ///
@@ -273,5 +294,25 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin {
         } else {
             result(FlutterError(code: "APP_NOT_INSTALLED", message: "App not installed and browser option is not enabled", details: nil))
         }
+    }
+
+    //three required methods of SharingDelegate protocol
+    public func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
+        // Handle successful share
+        print("Sharing completed with results: \(results)")
+        // Return success result back to Flutter
+        // You can send specific results to Flutter if needed
+    }
+
+    public func sharer(_ sharer: Sharing, didFailWithError error: Error) {
+        // Handle failure
+        print("Sharing failed with error: \(error.localizedDescription)")
+        // Return failure result back to Flutter
+    }
+
+    public func sharerDidCancel(_ sharer: Sharing) {
+        // Handle cancellation
+        print("Sharing was cancelled")
+        // Notify Flutter that the share was cancelled
     }
 }
