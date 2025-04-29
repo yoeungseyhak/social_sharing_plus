@@ -80,7 +80,7 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin, SharingDelegate {
             )
 
             do {
-                try dialog.show()
+                try dialog.validate()
             } catch {
                 print("Error info: \(error)")
                 result(FlutterError(code: "FACEBOOK_SHARE_ERROR", message: "Error info: \(error)", details: nil))
@@ -88,6 +88,7 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin, SharingDelegate {
                 openUrl(urlString: "fb://publish/profile/me?text=\(content)", webUrlString: "https://www.facebook.com/sharer/sharer.php?u=\(content)", result: result, isOpenBrowser: isOpenBrowser)
             }
             print("Content: \(content)")
+            dialog.show()
         }
     }
     // *end Seyhak
