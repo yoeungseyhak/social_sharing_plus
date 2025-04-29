@@ -83,6 +83,7 @@ public class SocialSharingPlusPlugin: NSObject, FlutterPlugin, SharingDelegate {
                 try dialog.show()
             } catch {
                 print("Error info: \(error)")
+                result(FlutterError(code: "FACEBOOK_SHARE_ERROR", message: "Error info: \(error)", details: nil))
                 // app not installed
                 openUrl(urlString: "fb://publish/profile/me?text=\(content)", webUrlString: "https://www.facebook.com/sharer/sharer.php?u=\(content)", result: result, isOpenBrowser: isOpenBrowser)
             }
